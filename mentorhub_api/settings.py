@@ -31,7 +31,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 
-ALLOWED_HOSTS = ['198.211.99.20', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['fegor.pythonanywhere.com',
+                 '198.211.99.20', 'localhost', '127.0.0.1']
 
 AUTH_USER_MODEL = 'authentication.User'
 # Application definition
