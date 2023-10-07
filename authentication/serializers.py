@@ -15,21 +15,21 @@ class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         max_length=68, min_length=6, write_only=True)
 
-    default_error_messages = {
-        'Field Entry Errors': 'The firstname and lastname should only contain alphanumeric characters'}
-
     class Meta:
         model = User
-        fields = ['email', 'first_name', 'last_name', 'password']
+        fields = ['email', 'first_name',
+                  'last_name', 'password', 'AffiliatedOrg']
 
     def validate(self, attrs):
         email = attrs.get('email', '')
         first_name = attrs.get('first_name', '')
         last_name = attrs.get('last_name', '')
 
-        if not first_name.isalnum() and last_name.isalnum():
-            raise serializers.ValidationError(
-                self.default_error_messages)
+        if not first_name.strip():  # Check if first_name is empty or contains only whitespace
+            raise serializers.ValidationError('First name cannot be empty.')
+
+        if not last_name.strip():  # Check if last_name is empty or contains only whitespace
+            raise serializers.ValidationError('Last name cannot be empty.')
         return attrs
 
     def create(self, validated_data):

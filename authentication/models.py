@@ -4,10 +4,10 @@ from django.contrib.auth.models import (
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.db import models
+
 
 # setup a custom User Model to house what we want
-
-
 class UserManager(BaseUserManager):
 
     # -----------CREATING THE USER---------
@@ -51,11 +51,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     user_type = models.CharField(
         choices=USER_TYPE_CHOICES, max_length=15, default="MEMBER")
     last_login = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    # the organization this user is affiliated with is stored as unique_id---------------
+    AffiliatedOrg = models.SlugField()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -65,6 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+    # generate tokens for login
     def tokens(self):
         # create the tokens
         refresh = RefreshToken.for_user(self)

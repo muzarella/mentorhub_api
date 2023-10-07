@@ -31,8 +31,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 
-ALLOWED_HOSTS = ['fegor.pythonanywhere.com',
-                 '198.211.99.20', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'authentication.User'
 # Application definition
@@ -49,9 +48,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_yasg',
     'authentication',
-    'members',
     'organizations',
-    'expenses'
 ]
 
 SWAGGER_SETTINGS = {
@@ -98,42 +95,39 @@ WSGI_APPLICATION = 'mentorhub_api.wsgi.application'
 # CORS WHITELIST
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    "fegor.pythonanywhere.com",
     "http://127.0.0.1:8080"
 ]
 
 CORS_ORIGIN_REGEX_WHITELIST = [
     r"^https://\w+\.netlify\.app$",
-    "fegor.pythonanywhere.com",
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://loclahost",
-    "fegor.pythonanywhere.com",
+    "https://localhost",
 ]
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('DB_NAME'),
-#         'USER': config('DB_USER'),
-#         'PASSWORD': config('DB_PASSWORD'),
-#         'HOST': config('DB_HOST'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+    }
+}
 
 
 # Test Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Fegor$mentorhub',
-        'USER': 'Fegor',
-        'PASSWORD': 'quv@)BX*Cioo',
-        'HOST': 'Fegor.mysql.pythonanywhere-services.com',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'Fegor$mentorhub',
+#         'USER': 'Fegor',
+#         'PASSWORD': 'quv@)BX*Cioo',
+#         'HOST': 'Fegor.mysql.pythonanywhere-services.com',
+#     }
+# }
 
 # # Database
 # # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import generics, status, views, permissions
 from .serializers import RegisterSerializer, SetNewPasswordSerializer, ResetPasswordEmailRequestSerializer, EmailVerificationSerializer, LoginSerializer, LogoutSerializer
 from rest_framework.response import Response
@@ -18,21 +18,23 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from .utils import Util
-from django.shortcuts import redirect
 from django.template.loader import render_to_string
-from members.permissions import IsMemberOrOrganization
 # Import ObjectDoesNotExist exception
 from django.core.exceptions import ObjectDoesNotExist
-
+from jwt.exceptions import InvalidAlgorithmError
 
 # -------------------------------REGISTER---------------------------
+
+
 class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
-    renderer_classes = (UserRenderer,)
+    renderer_classes = (UserRenderer,)  # Make sure to define UserRenderer
 
-    def post(self, request):
-        user = request.data
-        serializer = self.serializer_class(data=user)
+    def post(self, request, org_id):
+        user_data = request.data
+        user_data['AffiliatedOrg'] = org_id  # Save org_id as unique_id
+        print(org_id)
+        serializer = self.serializer_class(data=user_data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         user_data = serializer.data
@@ -40,17 +42,12 @@ class RegisterView(generics.GenericAPIView):
         token = RefreshToken.for_user(user).access_token
         current_site = get_current_site(request).domain
         relativeLink = reverse('email-verify')
-
         absurl = 'http://' + current_site + \
             relativeLink + "?token=" + str(token)
 
-        # Create a dictionary to pass context data to the template
         context = {'user': user, 'absurl': absurl}
-
-        # Render the HTML template
         email_body = render_to_string('mail.html', context)
 
-        # Rest of your code
         data = {'email_body': email_body, 'to_email': user.email,
                 'email_subject': 'Verify your email to Activate your Account'}
         Util.send_email(data)
@@ -62,6 +59,7 @@ class RegisterView(generics.GenericAPIView):
 class VerifyEmail(views.APIView):
     serializer_class = EmailVerificationSerializer
 
+    # to enable us test through swagger
     token_param_config = openapi.Parameter(
         'token', in_=openapi.IN_QUERY, description='Description', type=openapi.TYPE_STRING)
 
@@ -69,7 +67,8 @@ class VerifyEmail(views.APIView):
     def get(self, request):
         token = request.GET.get('token')
         try:
-            payload = jwt.decode(token, settings.SECRET_KEY)
+            payload = jwt.decode(
+                token, settings.SECRET_KEY, algorithms=['HS256'])
             user = User.objects.get(id=payload['user_id'])
             if not user.is_verified:
                 user.is_verified = True
@@ -77,9 +76,11 @@ class VerifyEmail(views.APIView):
             return Response({'email': 'Successfully activated'}, status=status.HTTP_200_OK)
         except jwt.ExpiredSignatureError as identifier:
             return Response({'error': 'Activation Expired'}, status=status.HTTP_400_BAD_REQUEST)
+        except InvalidAlgorithmError:
+            return Response({'error': 'Invalid token algorithm'}, status=status.HTTP_400_BAD_REQUEST)
         except jwt.exceptions.DecodeError as identifier:
             return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
-# -------------------------------END VERIFY EMAIL ADDRESS---------------------------
+        # -------------------------------END VERIFY EMAIL ADDRESS---------------------------
 
 
 # -------------------------------LOGIN---------------------------
@@ -143,6 +144,8 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
 # --------CHECK TOKEN TO CHANGE PASSWORD------------------
 class PasswordTokenCheckAPI(generics.GenericAPIView):
+    serializer_class = SetNewPasswordSerializer
+
     def get(self, request, uidb64, token):
 
         try:

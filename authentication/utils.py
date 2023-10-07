@@ -1,11 +1,8 @@
 from django.core.mail import EmailMessage
-
-
 import threading
 
 
 class EmailThread(threading.Thread):
-
     def __init__(self, email):
         self.email = email
         threading.Thread.__init__(self)
@@ -30,5 +27,10 @@ class Util:
         # Set the content_subtype to 'html'
         email.content_subtype = 'html'
 
-        # Send the email
-        email.send()
+        # Create an instance of EmailThread with the email
+        email_thread = EmailThread(email)
+
+        # Start the email thread to send the email asynchronously
+        email_thread.start()
+
+        # Note that this function returns immediately, and the email is sent in the background.
