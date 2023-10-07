@@ -144,6 +144,9 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
 # --------CHECK TOKEN TO CHANGE PASSWORD------------------
 class PasswordTokenCheckAPI(generics.GenericAPIView):
+    def get_serializer_class(self):
+        return SetNewPasswordSerializer
+    
     def get(self, request, uidb64, token):
 
         try:
