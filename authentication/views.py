@@ -1,3 +1,6 @@
+
+from django.http import HttpResponsePermanentRedirect
+import os
 from django.shortcuts import render, redirect
 from rest_framework import generics, status, views, permissions
 from .serializers import RegisterSerializer, SetNewPasswordSerializer, ResetPasswordEmailRequestSerializer, EmailVerificationSerializer, LoginSerializer, LogoutSerializer
@@ -142,26 +145,40 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 # -------------------------------END OF SEND CHANGE PASSWORD LINK TO CHANGE PASSWORD---------------------------
 
 
-# --------CHECK TOKEN TO CHANGE PASSWORD------------------
+class CustomRedirect(HttpResponsePermanentRedirect):
+    allowed_schemes = [os.environ.get('APP_SCHEME'), 'http', 'https']
+
+
+# --------CHECK TOKEN IF VALID TO CHANGE PASSWORD------------------
 class PasswordTokenCheckAPI(generics.GenericAPIView):
-    def get_serializer_class(self):
-        return SetNewPasswordSerializer
-    
+    serializer_class = SetNewPasswordSerializer
+
     def get(self, request, uidb64, token):
+        redirect_url = request.GET.get('redirect_url', '')
 
         try:
             id = smart_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(id=id)
 
             if not PasswordResetTokenGenerator().check_token(user, token):
-                return Response({'error': 'Token is not valid, please request a new one'}, status=status.HTTP_400_BAD_REQUEST)
+                return self.invalid_token_response(redirect_url)
 
-            return Response({'success': True, 'message': 'Credential Valid', 'uidb64': uidb64, 'token': token}, status=status.HTTP_200_OK)
+            # If the token is valid, proceed with your logic here
+            return Response({'message': 'Token is valid'}, status=status.HTTP_200_OK)
 
-        except DjangoUnicodeDecodeError as identifier:
-            if not PasswordResetTokenGenerator().check_token(user):
-                return Response({'error': 'Token is not valid, please request a new one'}, status=status.HTTP_400_BAD_REQUEST)
-# --------END CHECK TOKEN TO CHANGE PASSWORD------------------
+        except (DjangoUnicodeDecodeError, User.DoesNotExist):
+            return self.invalid_token_response(redirect_url)
+
+    def invalid_token_response(self, redirect_url):
+        if redirect_url:
+            # Append query parameters to the redirect URL
+            redirect_url += '?token_valid=False'
+        else:
+            redirect_url = os.environ.get(
+                'FRONTEND_URL', '') + '?token_valid=False'
+
+        return Response({'error': 'Token is not valid, please request a new one'}, status=status.HTTP_400_BAD_REQUEST)
+# --------END OF CHECK TOKEN IF VALID TO CHANGE PASSWORD------------------
 
 
 # ---------------------------UPDATE PASSWORD-----------------------
