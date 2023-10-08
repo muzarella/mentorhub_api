@@ -30,8 +30,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-
-# ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['fegor.pythonanywhere.com']
 
 AUTH_USER_MODEL = 'authentication.User'
@@ -108,27 +107,27 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('DB_NAME'),
-#         'USER': config('DB_USER'),
-#         'PASSWORD': config('DB_PASSWORD'),
-#         'HOST': config('DB_HOST'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+    }
+}
 
 
 # # Test Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'Fegor$mentorhub',
-#         'USER': 'Fegor',
-#         'PASSWORD': 'quv@)BX*Cioo',
-#         'HOST': 'Fegor.mysql.pythonanywhere-services.com',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Fegor$mentorhub',
+        'USER': 'Fegor',
+        'PASSWORD': 'quv@)BX*Cioo',
+        'HOST': 'Fegor.mysql.pythonanywhere-services.com',
+    }
+}
 
 # # Database
 # # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
