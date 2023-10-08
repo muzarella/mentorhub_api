@@ -26,9 +26,12 @@ from django.template.loader import render_to_string
 from django.core.exceptions import ObjectDoesNotExist
 from jwt.exceptions import InvalidAlgorithmError
 
+
+class CustomRedirect(HttpResponsePermanentRedirect):
+    allowed_schemes = [os.environ.get('APP_SCHEME'), 'http', 'https']
+
+
 # -------------------------------REGISTER---------------------------
-
-
 class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
     renderer_classes = (UserRenderer,)  # Make sure to define UserRenderer
@@ -145,21 +148,10 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 # -------------------------------END OF SEND CHANGE PASSWORD LINK TO CHANGE PASSWORD---------------------------
 
 
-class CustomRedirect(HttpResponsePermanentRedirect):
-    allowed_schemes = [os.environ.get('APP_SCHEME'), 'http', 'https']
-
-
-from rest_framework import serializers  # Import the serializers module
-# Define a dummy serializer to satisfy the requirements
-class DummySerializer(serializers.Serializer):
-    pass
-
-
-
 # --------CHECK TOKEN IF VALID TO CHANGE PASSWORD------------------
 class PasswordTokenCheckAPI(generics.GenericAPIView):
-    # Use the dummy serializer class
-    serializer_class = DummySerializer  # You can use SetNewPasswordSerializer if needed
+    def get_serializer_class(self):
+        return SetNewPasswordSerializer
 
     def get(self, request, uidb64, token):
         redirect_url = request.GET.get('redirect_url', '')
