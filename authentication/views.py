@@ -149,9 +149,17 @@ class CustomRedirect(HttpResponsePermanentRedirect):
     allowed_schemes = [os.environ.get('APP_SCHEME'), 'http', 'https']
 
 
+from rest_framework import serializers  # Import the serializers module
+# Define a dummy serializer to satisfy the requirements
+class DummySerializer(serializers.Serializer):
+    pass
+
+
+
 # --------CHECK TOKEN IF VALID TO CHANGE PASSWORD------------------
 class PasswordTokenCheckAPI(generics.GenericAPIView):
-    serializer_class = SetNewPasswordSerializer
+    # Use the dummy serializer class
+    serializer_class = DummySerializer  # You can use SetNewPasswordSerializer if needed
 
     def get(self, request, uidb64, token):
         redirect_url = request.GET.get('redirect_url', '')
