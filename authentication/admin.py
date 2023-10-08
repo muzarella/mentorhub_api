@@ -7,7 +7,7 @@ from django.utils.html import format_html
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = ('id', 'first_name', 'last_name', 'email',
                     'user_type', 'is_active', 'last_login', 'is_verified', 'AffiliatedOrg')
-    list_display_links = ('email', 'first_name', 'last_name')
+    list_display_links = ('id','email', 'first_name', 'last_name')
     readonly_fields = ('last_login', 'created_at')
     ordering = ('-created_at',)
     filter_horizontal = ()
