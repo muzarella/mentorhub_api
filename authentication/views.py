@@ -150,8 +150,7 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
 # --------CHECK TOKEN IF VALID TO CHANGE PASSWORD------------------
 class PasswordTokenCheckAPI(generics.GenericAPIView):
-    def get_serializer_class(self):
-        return SetNewPasswordSerializer
+    serializer_class = SetNewPasswordSerializer
 
     def get(self, request, uidb64, token):
         redirect_url = request.GET.get('redirect_url', '')
