@@ -119,26 +119,26 @@ CORS_ALLOWED_ORIGINS = [
 # }
 
 
-# Test Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Fegor$mentorhub',
-        'USER': 'Fegor',
-        'PASSWORD': 'quv@)BX*Cioo',
-        'HOST': 'Fegor.mysql.pythonanywhere-services.com',
-    }
-}
+# # Test Database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'Fegor$mentorhub',
+#         'USER': 'Fegor',
+#         'PASSWORD': 'quv@)BX*Cioo',
+#         'HOST': 'Fegor.mysql.pythonanywhere-services.com',
+#     }
+# }
 
 # # Database
 # # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
