@@ -75,10 +75,9 @@ MIDDLEWARE = [
 
 # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    'x-custom-header',
-    "*",
     "https://localhost",
     "https://fegor.pythonanywhere.com",
     "http://localhost:5173/"
