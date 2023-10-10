@@ -106,6 +106,7 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    "*",
     "https://localhost",
     "https://fegor.pythonanywhere.com",
     "http://localhost:5173/"
