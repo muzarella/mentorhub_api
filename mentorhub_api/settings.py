@@ -72,6 +72,19 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
+CORS_ALLOW_ALL_ORIGINS = False
+
+CORS_ALLOWED_ORIGINS = [
+    'x-custom-header',
+    "*",
+    "https://localhost",
+    "https://fegor.pythonanywhere.com",
+    "http://localhost:5173/"
+]
+
+
 ROOT_URLCONF = 'mentorhub_api.urls'
 
 TEMPLATES = [
@@ -104,19 +117,6 @@ CORS_ORIGIN_REGEX_WHITELIST = [
     "https://fegor.pythonanywhere.com",
     "http://localhost:5173/"
 ]
-
-# If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
-
-CORS_ALLOWED_ORIGINS = [
-    'x-custom-header',
-    "*",
-    "https://localhost",
-    "https://fegor.pythonanywhere.com",
-    "http://localhost:5173/"
-]
-
 
 # Development /Production
 # DATABASES = {
