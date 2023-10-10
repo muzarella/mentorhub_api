@@ -76,8 +76,6 @@ MIDDLEWARE = [
 # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://localhost",
-    "https://fegor.pythonanywhere.com",
 ]
 
 ROOT_URLCONF = 'mentorhub_api.urls'
@@ -103,15 +101,10 @@ WSGI_APPLICATION = 'mentorhub_api.wsgi.application'
 # CORS WHITELIST
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:5173",
-    "https://localhost",
-    "https://fegor.pythonanywhere.com",
-
 ]
 
 CORS_ORIGIN_REGEX_WHITELIST = [
     "http://localhost:5173"
-    "https://localhost",
-    "https://fegor.pythonanywhere.com",
 
 ]
 
