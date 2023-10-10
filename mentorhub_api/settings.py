@@ -94,11 +94,15 @@ WSGI_APPLICATION = 'mentorhub_api.wsgi.application'
 
 # CORS WHITELIST
 CORS_ORIGIN_WHITELIST = [
-    "https://fegor.pythonanywhere.com"
-    "http://localhost:5173/",
+    "https://localhost",
+    "https://fegor.pythonanywhere.com",
+    "http://localhost:5173/"
 ]
 
 CORS_ORIGIN_REGEX_WHITELIST = [
+    "https://localhost",
+    "https://fegor.pythonanywhere.com",
+    "http://localhost:5173/"
 ]
 
 CORS_ALLOWED_ORIGINS = [
