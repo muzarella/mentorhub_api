@@ -105,13 +105,17 @@ CORS_ORIGIN_REGEX_WHITELIST = [
     "http://localhost:5173/"
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "*",
-    "https://localhost",
-    "https://fegor.pythonanywhere.com",
-    "http://localhost:5173/"
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "*",
+#     "https://localhost",
+#     "https://fegor.pythonanywhere.com",
+#     "http://localhost:5173/"
+# ]
 
+
+# If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Development /Production
 # DATABASES = {
