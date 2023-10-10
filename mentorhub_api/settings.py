@@ -73,11 +73,6 @@ MIDDLEWARE = [
 ]
 
 
-# If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
-
 ROOT_URLCONF = 'mentorhub_api.urls'
 
 TEMPLATES = [
@@ -187,6 +182,15 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+CORS_ALLOWED_ORIGINS = [
+    "https://fegor.pythonanywhere.com",
+    "https://localhost:5173/",
+]
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
