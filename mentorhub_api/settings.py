@@ -98,16 +98,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mentorhub_api.wsgi.application'
 
-# CORS WHITELIST
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:5173",
-]
-
-CORS_ORIGIN_REGEX_WHITELIST = [
-    "http://localhost:5173"
-
-]
-
 # Development /Production
 # DATABASES = {
 #     'default': {
