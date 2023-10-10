@@ -30,7 +30,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-#ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['fegor.pythonanywhere.com']
 
 AUTH_USER_MODEL = 'authentication.User'
@@ -94,6 +94,7 @@ WSGI_APPLICATION = 'mentorhub_api.wsgi.application'
 
 # CORS WHITELIST
 CORS_ORIGIN_WHITELIST = [
+    "https://fegor.pythonanywhere.com"
 ]
 
 CORS_ORIGIN_REGEX_WHITELIST = [
@@ -101,6 +102,7 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://localhost",
+    "https://fegor.pythonanywhere.com"
 ]
 
 
