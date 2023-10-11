@@ -197,10 +197,11 @@ class LogoutAPIView(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request):
-
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        # Add a custom message to the response
+        response_data = {'detail': 'Successfully logged out.'}
+        return Response(response_data, status=status.HTTP_200_OK)
 # ---------------------------END OF LOGOUT-----------------------

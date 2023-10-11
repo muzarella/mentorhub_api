@@ -185,7 +185,7 @@ USE_TZ = True
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    "https://localhost:5173/",
+    "https://localhost:5173",
 )
 
 
